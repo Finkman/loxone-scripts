@@ -13,10 +13,10 @@
 
 #define OUT_DEBUG 12
 #define PERIOD_MS 1000
-
+//#define ADDRESS "192.168.0.9"
 #define INPUT_IP_ADDRESS 0
 
-#define TAG_POWER "\power\":\""
+#define TAG_POWER "\"power\":\""
 #define TAG_SOUND_PROGRAM "\"sound_program\":\""
 #define TAG_INPUT "\"input\":\""
 
@@ -30,8 +30,9 @@ int mapResponseToOuput(char* json, char* tag, char* expect, int output){
     return -1;
   }
 
+	int len = strlen(expect);
   // check power value is "expect"
-  if(strncmp(search, expect, strlen(expect)) == 0){
+  if(strncmp(search, expect, len) == 0){
     setoutput(output, 1);
   }else{
     setoutput(output, 0);
@@ -49,7 +50,7 @@ while(true)
   char* ipAddress = getinputtext(INPUT_IP_ADDRESS);
 
   char* response = httpget(ipAddress, GET_STATUS);
-
+  
   if(response == 0){
     setoutput(OUT_STATUS, 100);
     setoutput(OUT_POWER_ON, 0);
