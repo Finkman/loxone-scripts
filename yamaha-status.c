@@ -46,6 +46,14 @@ int mapResponseToOuput(char *json, char *tag, char *expect, int output)
   return 0;
 }
 
+void onError(int error)
+{
+  setoutput(OUT_STATUS, error);
+  while (true)
+  {
+  }
+}
+
 while (true)
 {
   setoutput(OUT_STATUS, 1);
@@ -69,31 +77,37 @@ while (true)
     continue;
   }
 
-  int ret;
+  int ret = 0;
 
-  ret = mapResponseToOuput(response, TAG_POWER, POWER_ON_TEXT, OUT_POWER_ON);
-  if (ret != 0)
+  if (ret == 0)
   {
-    setoutput(OUT_STATUS, 101);
-    continue;
+    ret = mapResponseToOuput(response, TAG_POWER, POWER_ON_TEXT, OUT_POWER_ON);
+    if (ret != 0)
+    {
+      onError(101);
+    }
   }
 
   setoutput(OUT_STATUS, 4);
 
-  ret = mapResponseToOuput(response, TAG_SOUND_PROGRAM, IS_2CH_TEXT, OUT_IS_2CH);
-  if (ret != 0)
+  if (ret == 0)
   {
-    setoutput(OUT_STATUS, 102);
-    continue;
+    ret = mapResponseToOuput(response, TAG_SOUND_PROGRAM, IS_2CH_TEXT, OUT_IS_2CH);
+    if (ret != 0)
+    {
+      onError(102);
+    }
   }
 
   setoutput(OUT_STATUS, 5);
 
-  ret = mapResponseToOuput(response, TAG_INPUT, HDMI2_SELECTED_TEXT, OUT_INPUT_SELECTED);
-  if (ret != 0)
+  if (ret == 0)
   {
-    setoutput(OUT_STATUS, 103);
-    continue;
+    ret = mapResponseToOuput(response, TAG_INPUT, HDMI2_SELECTED_TEXT, OUT_INPUT_SELECTED);
+    if (ret != 0)
+    {
+      onError(103);
+    }
   }
 
   free(response);
