@@ -110,6 +110,7 @@ while (true)
     }
   }
 
+  free(ipAddress);
   free(response);
   setoutput(OUT_STATUS, 10);
 }
