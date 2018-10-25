@@ -49,9 +49,7 @@ int mapResponseToOuput(char *json, char *tag, char *expect, int output)
 void onError(int error)
 {
   setoutput(OUT_STATUS, error);
-  while (true)
-  {
-  }
+  sleeps(2);
 }
 
 while (true)
